@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, Form, Header } from 'semantic-ui-react'
-import { withRouter } from 'react-router-dom'
 
 import withFirebase from 'HOC/withFirebase'
 
@@ -30,8 +29,6 @@ class Signup extends Component {
         .createUserWithEmailAndPassword(email, password)
         .then(user => {
           this.setState({ ...initialState })
-          // TODO this should not be necessary - signup is a public-only route, so user should be redirected away automatically
-          this.props.history.push('/app')
         })
         .catch(error => {
           this.setState({ error })
@@ -52,11 +49,23 @@ class Signup extends Component {
         <Form>
           <Form.Field>
             <label>Name</label>
-            <input placeholder="Name" type="text" name="name" onChange={this.handleChange} required />
+            <input
+              placeholder="Name"
+              type="text"
+              name="name"
+              onChange={this.handleChange}
+              value={this.state.name}
+            />
           </Form.Field>
           <Form.Field>
             <label>Email</label>
-            <input placeholder="Email" type="text" name="email" onChange={this.handleChange} required />
+            <input
+              placeholder="Email"
+              type="text"
+              name="email"
+              onChange={this.handleChange}
+              value={this.state.email}
+            />
           </Form.Field>
           <Form.Field>
             <label>Password</label>
@@ -65,7 +74,7 @@ class Signup extends Component {
               type="password"
               name="password"
               onChange={this.handleChange}
-              required
+              value={this.state.password}
             />
           </Form.Field>
           <Button onClick={this.handleSubmit}>Signup</Button>
@@ -78,4 +87,4 @@ class Signup extends Component {
   }
 }
 
-export default withRouter(withFirebase(Signup))
+export default withFirebase(Signup)

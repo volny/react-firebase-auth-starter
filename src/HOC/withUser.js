@@ -12,7 +12,6 @@ export default Component =>
 
       componentDidMount() {
         this.listener = this.props.firebase.auth.onAuthStateChanged(user => {
-          console.log('authStateChanged', { user })
           user ? this.setState({ user }) : this.setState({ user: null })
         })
       }

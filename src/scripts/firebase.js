@@ -22,14 +22,19 @@ class Firebase {
   signInWithEmailAndPassword = (email, password) => this.auth.signInWithEmailAndPassword(email, password)
 
   logout = () => {
-    console.log('logout')
     return this.auth.signOut()
   }
 
+  // TODO redirect back to own reset pw form
+  // https://firebase.google.com/docs/auth/web/passing-state-in-email-actions
   resetPassword = email => this.auth.sendPasswordResetEmail(email)
 
-  updatePassword = password => this.auth.currentUser.updatePassword(password)
+  updatePassword = (currentPassword, newPassword, email) =>
+    // TODO this should probably be `reauthenticateAndRetrieveDataWithCredential` instead
+    // https://firebase.google.com/docs/auth/web/manage-users#re-authenticate_a_user
+    this.auth.signInWithEmailAndPassword(email, currentPassword).then(() => {
+      this.auth.currentUser.updatePassword(newPassword)
+    })
 }
 
 export default Firebase
-

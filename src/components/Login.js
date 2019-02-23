@@ -29,7 +29,6 @@ class Login extends Component {
         .signInWithEmailAndPassword(email, password)
         .then(() => {
           this.setState({ ...initialState })
-          this.props.history.push('/app')
         })
         .catch(error => {
           this.setState({ error })
@@ -38,7 +37,7 @@ class Login extends Component {
       this.setState({
         error: {
           message: 'Please fill out both fields',
-        }
+        },
       })
     }
   }
@@ -50,7 +49,13 @@ class Login extends Component {
         <Form>
           <Form.Field>
             <label>Email</label>
-            <input placeholder="Email" name="email" type="text" onChange={this.handleChange} required />
+            <input
+              placeholder="Email"
+              name="email"
+              type="text"
+              onChange={this.handleChange}
+              value={this.state.email}
+            />
           </Form.Field>
           <Form.Field>
             <label>Password</label>
@@ -59,18 +64,16 @@ class Login extends Component {
               type="password"
               name="password"
               onChange={this.handleChange}
-              required
+              value={this.state.password}
             />
           </Form.Field>
-          <Button onClick={this.handleSubmit}>
-            Login
-          </Button>
+          <Button onClick={this.handleSubmit}>Login</Button>
           {this.state.error && (
             <div style={{ paddingTop: 10, color: '#c0392b' }}> {this.state.error.message} </div>
           )}
         </Form>
         <div style={{ paddingTop: 10 }}>
-          <Link to="/reset-password">Forget your Password?</Link>
+          <Link to="/reset-password">Forgot your Password?</Link>
         </div>
       </div>
     )
