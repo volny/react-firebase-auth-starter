@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Form, Header } from 'semantic-ui-react'
 
 import withFirebase from 'HOC/withFirebase'
+import withAuthorization from 'HOC/withAuthorization'
 
 const initialState = {
   name: '',
@@ -87,4 +88,4 @@ class Signup extends Component {
   }
 }
 
-export default withFirebase(Signup)
+export default withAuthorization('public')(withFirebase(Signup))

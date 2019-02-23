@@ -26,7 +26,7 @@ class Firebase {
   }
 
   // TODO redirect back to own reset pw form
-  // https://firebase.google.com/docs/auth/web/passing-state-in-email-actions
+  // https://firebase.google.com/docs/auth/custom-email-handler
   resetPassword = email => this.auth.sendPasswordResetEmail(email)
 
   updatePassword = (currentPassword, newPassword, email) =>

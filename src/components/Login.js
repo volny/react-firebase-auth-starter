@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button, Form, Header } from 'semantic-ui-react'
 
 import withFirebase from 'HOC/withFirebase'
+import withAuthorization from 'HOC/withAuthorization'
 
 const initialState = {
   email: '',
@@ -80,4 +81,4 @@ class Login extends Component {
   }
 }
 
-export default withFirebase(Login)
+export default withAuthorization('public')(withFirebase(Login))

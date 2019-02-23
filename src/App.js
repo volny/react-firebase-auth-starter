@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import withUser from 'HOC/withUser'
+import withAuthentication from 'HOC/withAuthentication'
 
 import Header from 'components//Header'
 import Landing from 'components/Landing'
@@ -27,4 +27,4 @@ const App = () => (
   </Router>
 )
 
-export default withUser(App)
+export default withAuthentication(App)
