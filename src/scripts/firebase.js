@@ -1,5 +1,3 @@
-import React from 'react'
-
 import app from 'firebase/app'
 import 'firebase/auth'
 
@@ -12,7 +10,7 @@ const config = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
 }
 
-export default class Firebase {
+class Firebase {
   constructor() {
     app.initializeApp(config)
     this.auth = app.auth()
@@ -30,4 +28,5 @@ export default class Firebase {
   updatePassword = password => this.auth.currentUser.updatePassword(password)
 }
 
-export const FirebaseContext = React.createContext(null)
+export default Firebase
+
