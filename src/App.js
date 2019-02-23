@@ -1,6 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
+import withUser from 'HOC/withUser'
+
 import Header from 'components//Header'
 import Landing from 'components/Landing'
 import Signup from 'components/Signup'
@@ -25,4 +27,4 @@ const App = () => (
   </Router>
 )
 
-export default App
+export default withUser(App)

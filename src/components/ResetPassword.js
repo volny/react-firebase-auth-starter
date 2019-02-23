@@ -5,6 +5,7 @@ class ResetPassword extends Component {
   state = {
     email: '',
     password: '',
+    error: '',
   }
 
   handleChange = e => {
@@ -13,7 +14,10 @@ class ResetPassword extends Component {
     }))
   }
 
-  handleSubmit = () => {}
+  handleSubmit = e => {
+    e.preventDefault()
+
+  }
 
   render() {
     return (
@@ -22,9 +26,10 @@ class ResetPassword extends Component {
         <Form>
           <Form.Field>
             <label>Email</label>
-            <input placeholder="Email" name="email" onChange={this.handleChange} />
+            <input placeholder="Email" name="email" type="text" onChange={this.handleChange} required />
           </Form.Field>
-          <Button onClick={this.handleSubmit}>Reset Password</Button>
+          <Button type="submit" onClick={this.handleSubmit}>Reset Password</Button>
+          {this.state.error && <div style={{ paddingTop: 10, color: '#c0392b' }}> {this.state.error.message} </div>}
         </Form>
       </div>
     )

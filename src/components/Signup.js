@@ -8,7 +8,7 @@ const initialState = {
   name: '',
   email: '',
   password: '',
-  error: '',
+  error: null,
 }
 
 class Signup extends Component {
@@ -18,22 +18,31 @@ class Signup extends Component {
     e.persist()
     this.setState(state => ({
       [e.target.name]: e.target.value,
+      error: null,
     }))
   }
 
-  handleSubmit = () => {
+  handleSubmit = e => {
     // TODO save name in user obj
     const { name, email, password } = this.state
-    this.props.firebase
-      .createUserWithEmailAndPassword(email, password)
-      .then(user => {
-        this.setState({ ...initialState })
-        // TODO this should not be necessary - signup is a public-only route, so user should be redirected away automatically
-        this.props.history.push('/')
+    if (name.length > 0 && email.length > 0 && password.length > 0) {
+      this.props.firebase
+        .createUserWithEmailAndPassword(email, password)
+        .then(user => {
+          this.setState({ ...initialState })
+          // TODO this should not be necessary - signup is a public-only route, so user should be redirected away automatically
+          this.props.history.push('/app')
+        })
+        .catch(error => {
+          this.setState({ error })
+        })
+    } else {
+      this.setState({
+        error: {
+          message: 'Please fill out all fields',
+        },
       })
-      .catch(error => {
-        this.setState({ error })
-      })
+    }
   }
 
   render() {
@@ -60,7 +69,9 @@ class Signup extends Component {
             />
           </Form.Field>
           <Button onClick={this.handleSubmit}>Signup</Button>
-          {this.state.error && <div style={{ paddingTop: 10, color: '#c0392b' }}> {this.state.error} </div>}
+          {this.state.error && (
+            <div style={{ paddingTop: 10, color: '#c0392b' }}> {this.state.error.message} </div>
+          )}
         </Form>
       </div>
     )

@@ -2,19 +2,46 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Form, Header } from 'semantic-ui-react'
 
+import withFirebase from 'HOC/withFirebase'
+
+const initialState = {
+  email: '',
+  password: '',
+  error: null,
+}
+
 class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-  }
+  state = initialState
 
   handleChange = e => {
+    e.persist()
     this.setState(state => ({
       [e.target.name]: e.target.value,
+      error: null,
     }))
   }
 
-  handleSubmit = () => {}
+  handleSubmit = e => {
+    const { email, password } = this.state
+
+    if (email.length > 0 && password.length > 0) {
+      this.props.firebase
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          this.setState({ ...initialState })
+          this.props.history.push('/app')
+        })
+        .catch(error => {
+          this.setState({ error })
+        })
+    } else {
+      this.setState({
+        error: {
+          message: 'Please fill out both fields',
+        }
+      })
+    }
+  }
 
   render() {
     return (
@@ -23,13 +50,24 @@ class Login extends Component {
         <Form>
           <Form.Field>
             <label>Email</label>
-            <input placeholder="Email" name="email" onChange={this.handleChange} />
+            <input placeholder="Email" name="email" type="text" onChange={this.handleChange} required />
           </Form.Field>
           <Form.Field>
             <label>Password</label>
-            <input placeholder="**********" name="password" onChange={this.handleChange} />
+            <input
+              placeholder="**********"
+              type="password"
+              name="password"
+              onChange={this.handleChange}
+              required
+            />
           </Form.Field>
-          <Button onClick={this.handleSubmit}>Login</Button>
+          <Button onClick={this.handleSubmit}>
+            Login
+          </Button>
+          {this.state.error && (
+            <div style={{ paddingTop: 10, color: '#c0392b' }}> {this.state.error.message} </div>
+          )}
         </Form>
         <div style={{ paddingTop: 10 }}>
           <Link to="/reset-password">Forget your Password?</Link>
@@ -39,4 +77,4 @@ class Login extends Component {
   }
 }
 
-export default Login
+export default withFirebase(Login)
